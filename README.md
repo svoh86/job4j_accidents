@@ -1,6 +1,6 @@
 # Приложение "Автонарушители"
 
-[//]: # ([![Java CI with Maven]&#40;https://github.com/svoh86/job4j_cars/actions/workflows/maven.yml/badge.svg&#41;]&#40;https://github.com/svoh86/job4j_cars/actions/workflows/maven.yml&#41;)
+[![Java CI with Maven](https://github.com/svoh86/job4j_accidents/actions/workflows/maven.yml/badge.svg)](https://github.com/svoh86/job4j_accidents/actions/workflows/maven.yml)
 
 + [О проекте](#О-проекте)
 + [Технологии](#Технологии)
