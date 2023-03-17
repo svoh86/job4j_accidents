@@ -32,9 +32,27 @@
             </div>
         </div>
     </nav>
-</div>
-<div align="center">
-    Web-приложение "Автонарушители".
+    <div class="row">
+        <table class="table table-bordered">
+            <col style="width:30%">
+            <col style="width:40%">
+            <col style="width:30%">
+            <thead>
+            <tr class="table-primary">
+                <th scope="col">Имя</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Адрес</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-secondary" th:each="accident:${accidents}">
+                <td th:text="${accident.name}"/>
+                <td th:text="${accident.text}"/>
+                <td th:text="${accident.address}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
