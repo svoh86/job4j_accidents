@@ -6,7 +6,9 @@ import ru.job4j.accidents.model.Accident;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Svistunov Mikhail
@@ -15,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class AccidentMem {
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
+    private final AtomicInteger ids = new AtomicInteger(3);
 
     public AccidentMem() {
         accidents.put(1, new Accident(1, "Ivanov", "Speed over 40", "Lenin street"));
@@ -25,5 +28,22 @@ public class AccidentMem {
     public List<Accident> getAll() {
         Collection<Accident> values = accidents.values();
         return List.copyOf(values);
+    }
+
+    public boolean create(Accident accident) {
+        accident.setId(ids.incrementAndGet());
+        return accidents.put(accident.getId(), accident) == null;
+    }
+
+    public Optional<Accident> findById(int id) {
+        return Optional.ofNullable(accidents.get(id));
+    }
+
+    public boolean update(int id, Accident accident) {
+        Optional<Accident> accidentOptional = findById(id);
+        if (accidentOptional.isEmpty()) {
+            return false;
+        }
+        return accidentOptional.get().equals(accidents.put(id, accident));
     }
 }

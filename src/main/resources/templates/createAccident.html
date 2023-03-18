@@ -33,30 +33,30 @@
             </div>
         </div>
     </nav>
-    <div class="row">
-        <table class="table table-bordered">
-            <col style="width:30%">
-            <col style="width:40%">
-            <col style="width:30%">
-            <thead>
-            <tr class="table-primary">
-                <th scope="col">Имя</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Адрес</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="table-secondary" th:each="accident:${accidents}">
-                <td th:text="${accident.name}"/>
-                <td>
-                    <a th:href="@{|/editAccident/${accident.id}|}">
-                        <span th:text="${accident.text}"/>
-                    </a>
-                </td>
-                <td th:text="${accident.address}"/>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Новый инцидент
+            </div>
+            <div class="card-body">
+                <form th:action="@{/saveAccident}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="0"/>
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Описание</label>
+                        <input type="text" class="form-control" name="text" id="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес</label>
+                        <input type="text" class="form-control" name="address" id="address">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>

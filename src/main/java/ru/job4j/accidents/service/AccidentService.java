@@ -5,6 +5,7 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentMem;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Svistunov Mikhail
@@ -20,5 +21,17 @@ public class AccidentService {
 
     public List<Accident> getAll() {
         return accidentMem.getAll();
+    }
+
+    public boolean create(Accident accident) {
+        return accidentMem.create(accident);
+    }
+
+    public Optional<Accident> findById(int id) {
+        return accidentMem.findById(id);
+    }
+
+    public boolean update(int id, Accident accident) {
+        return accidentMem.update(id, accident);
     }
 }
