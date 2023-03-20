@@ -40,10 +40,6 @@ public class AccidentMem {
     }
 
     public boolean update(int id, Accident accident) {
-        Optional<Accident> accidentOptional = findById(id);
-        if (accidentOptional.isEmpty()) {
-            return false;
-        }
-        return accidentOptional.get().equals(accidents.put(id, accident));
+        return accidents.replace(id, accident) != null;
     }
 }
