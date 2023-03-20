@@ -3,10 +3,7 @@ package ru.job4j.accidents.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
 
@@ -39,21 +36,21 @@ public class AccidentController {
         return "redirect:/index";
     }
 
-    @GetMapping("/editAccident/{accidentId}")
-    public String editAccident(Model model, @PathVariable("accidentId") Integer accidentId, HttpSession session) {
+    @GetMapping("/editAccident")
+    public String editAccident(Model model, @RequestParam("id") int accidentId) {
         model.addAttribute("user", "admin");
         Optional<Accident> accidentOptional = accidentService.findById(accidentId);
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Инцидента не существует!");
             return "errorPage";
         }
-        session.setAttribute("accidentId", accidentOptional.get().getId());
+        model.addAttribute("accident", accidentOptional.get());
         return "editAccident";
     }
 
     @PostMapping("/updateAccident")
-    public String updateAccident(@ModelAttribute Accident accident, Model model, HttpSession session) {
-        Integer accidentId = (Integer) session.getAttribute("accidentId");
+    public String updateAccident(@ModelAttribute Accident accident, Model model,
+                                 @RequestParam("id") int accidentId) {
         if (!accidentService.update(accidentId, accident)) {
             model.addAttribute("message", "Инцидент не создан!");
             return "errorPage";

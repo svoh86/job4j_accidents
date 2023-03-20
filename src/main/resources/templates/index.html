@@ -49,7 +49,7 @@
             <tr class="table-secondary" th:each="accident:${accidents}">
                 <td th:text="${accident.name}"/>
                 <td>
-                    <a th:href="@{|/editAccident/${accident.id}|}">
+                    <a th:href="@{|/editAccident?id=${accident.id}|}">
                         <span th:text="${accident.text}"/>
                     </a>
                 </td>
