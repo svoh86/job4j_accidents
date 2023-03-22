@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 /**
+ * Модель статьи нарушения
+ *
  * @author Svistunov Mikhail
  * @version 1.0
  */
@@ -15,12 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Accident {
+public class Rule {
     @EqualsAndHashCode.Include
     private int id;
     private String name;
-    private String text;
-    private String address;
-    private AccidentType type;
-    private Set<Rule> rules;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

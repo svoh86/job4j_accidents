@@ -3,11 +3,9 @@ package ru.job4j.accidents.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,11 +20,14 @@ public class AccidentMem {
 
     public AccidentMem() {
         accidents.put(1, new Accident(1, "Ivanov", "Speed over 40", "Lenin street",
-                new AccidentType(2, "Машина и человек")));
+                new AccidentType(2, "Машина и человек"),
+                Set.of(new Rule(1, "Статья. 1"))));
         accidents.put(2, new Accident(2, "Petrov", "Wrong parking", "Nevskiy avenue",
-                new AccidentType(1, "Две машины")));
+                new AccidentType(1, "Две машины"),
+                Set.of(new Rule(2, "Статья. 2"))));
         accidents.put(3, new Accident(3, "Sidorov", "Didn't yield to a pedestrian", "Pushkin street",
-                new AccidentType(2, "Машина и человек")));
+                new AccidentType(2, "Машина и человек"),
+                Set.of(new Rule(1, "Статья. 1"), new Rule(3, "Статья. 3"))));
     }
 
     public List<Accident> getAll() {
