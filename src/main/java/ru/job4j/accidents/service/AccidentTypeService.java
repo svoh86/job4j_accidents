@@ -1,8 +1,9 @@
 package ru.job4j.accidents.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repository.AccidentTypeMem;
+import ru.job4j.accidents.repository.AccidentTypeJDBCTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,22 +13,19 @@ import java.util.Optional;
  * @version 1.0
  */
 @Service
+@AllArgsConstructor
 public class AccidentTypeService {
-    private final AccidentTypeMem accidentTypeMem;
-
-    public AccidentTypeService(AccidentTypeMem accidentTypeMem) {
-        this.accidentTypeMem = accidentTypeMem;
-    }
+    private final AccidentTypeJDBCTemplate accidentTypeRepository;
 
     public List<AccidentType> getAll() {
-        return accidentTypeMem.getAll();
+        return accidentTypeRepository.getAll();
     }
 
     public boolean create(AccidentType accidentType) {
-        return accidentTypeMem.create(accidentType);
+        return accidentTypeRepository.create(accidentType);
     }
 
     public Optional<AccidentType> findById(int id) {
-        return accidentTypeMem.findById(id);
+        return accidentTypeRepository.findById(id);
     }
 }

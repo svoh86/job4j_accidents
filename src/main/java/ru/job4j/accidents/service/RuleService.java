@@ -1,8 +1,9 @@
 package ru.job4j.accidents.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleMem;
+import ru.job4j.accidents.repository.RuleJDBCTemplate;
 
 import java.util.List;
 import java.util.Set;
@@ -12,22 +13,19 @@ import java.util.Set;
  * @version 1.0
  */
 @Service
+@AllArgsConstructor
 public class RuleService {
-    private final RuleMem ruleMem;
-
-    public RuleService(RuleMem ruleMem) {
-        this.ruleMem = ruleMem;
-    }
+    private final RuleJDBCTemplate ruleRepository;
 
     public List<Rule> getAll() {
-        return ruleMem.getAll();
+        return ruleRepository.getAll();
     }
 
     public boolean create(Rule rule) {
-        return ruleMem.create(rule);
+        return ruleRepository.create(rule);
     }
 
     public Set<Rule> findById(String[] ids) {
-        return ruleMem.findById(ids);
+        return ruleRepository.findById(ids);
     }
 }
