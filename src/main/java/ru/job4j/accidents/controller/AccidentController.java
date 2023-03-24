@@ -50,9 +50,9 @@ public class AccidentController {
         String[] ids = req.getParameterValues("rIds");
         accident.setRules(ruleService.findById(ids));
         if (!accidentService.create(accident)) {
-           model.addAttribute("message", "Инцидент не создан!");
-           return "errorPage";
-       }
+            model.addAttribute("message", "Инцидент не создан!");
+            return "errorPage";
+        }
         return "redirect:/index";
     }
 
@@ -72,7 +72,6 @@ public class AccidentController {
 
     @PostMapping("/updateAccident")
     public String updateAccident(@ModelAttribute Accident accident, Model model,
-                                 @RequestParam("id") int accidentId,
                                  @RequestParam(name = "type.id") int typeId,
                                  HttpServletRequest req) {
         Optional<AccidentType> accidentTypeOptional = accidentTypeService.findById(typeId);
@@ -83,7 +82,7 @@ public class AccidentController {
         accident.setType(accidentTypeOptional.get());
         String[] ids = req.getParameterValues("rIds");
         accident.setRules(ruleService.findById(ids));
-        if (!accidentService.update(accidentId, accident)) {
+        if (!accidentService.update(accident)) {
             model.addAttribute("message", "Инцидент не создан!");
             return "errorPage";
         }
