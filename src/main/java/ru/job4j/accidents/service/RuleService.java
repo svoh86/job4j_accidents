@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.RuleHibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +27,15 @@ public class RuleService {
     }
 
     public Set<Rule> findById(String[] ids) {
-        return ruleRepository.findById(ids);
+        List<Integer> integerId = getIds(ids);
+        return ruleRepository.findById(integerId);
+    }
+
+    private List<Integer> getIds(String[] ids) {
+        List<Integer> integerId = new ArrayList<>();
+        for (String s : ids) {
+            integerId.add(Integer.parseInt(s));
+        }
+        return integerId;
     }
 }

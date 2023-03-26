@@ -23,11 +23,8 @@ public class Accident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "text")
     private String text;
-    @Column(name = "address")
     private String address;
     @ManyToOne
     @JoinColumn(name = "type_id")
