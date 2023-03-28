@@ -3,7 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repository.AccidentTypeHibernate;
+import ru.job4j.accidents.repository.AccidentTypeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,14 +15,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class AccidentTypeService {
-    private final AccidentTypeHibernate accidentTypeRepository;
+    private final AccidentTypeRepository accidentTypeRepository;
 
     public List<AccidentType> getAll() {
-        return accidentTypeRepository.getAll();
+        return (List<AccidentType>) accidentTypeRepository.findAll();
     }
 
     public boolean create(AccidentType accidentType) {
-        return accidentTypeRepository.create(accidentType);
+        boolean flag;
+        try {
+            accidentTypeRepository.save(accidentType);
+            flag = true;
+        } catch (Exception e) {
+            flag = false;
+        }
+        return flag;
     }
 
     public Optional<AccidentType> findById(int id) {
