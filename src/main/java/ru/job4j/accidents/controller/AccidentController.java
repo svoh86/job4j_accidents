@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,8 @@ public class AccidentController {
     private final RuleService ruleService;
 
     @GetMapping("/createAccident")
-    public String createAccident(Model model) {
-        model.addAttribute("user", "admin");
+    public String createAccident(Model model, Authentication auth) {
+        model.addAttribute("user", auth.getName());
         model.addAttribute("types", accidentTypeService.getAll());
         model.addAttribute("rules", ruleService.getAll());
         return "createAccident";
@@ -57,8 +58,8 @@ public class AccidentController {
     }
 
     @GetMapping("/editAccident")
-    public String editAccident(Model model, @RequestParam("id") int accidentId) {
-        model.addAttribute("user", "admin");
+    public String editAccident(Model model, @RequestParam("id") int accidentId, Authentication auth) {
+        model.addAttribute("user", auth.getName());
         Optional<Accident> accidentOptional = accidentService.findById(accidentId);
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Инцидента не существует!");

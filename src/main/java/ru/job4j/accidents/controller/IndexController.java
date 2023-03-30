@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,8 @@ public class IndexController {
     }
 
     @GetMapping("/index")
-    public String index(Model model) {
-        model.addAttribute("user", "admin");
+    public String index(Model model, Authentication auth) {
+        model.addAttribute("user", auth.getName());
         model.addAttribute("accidents", accidentService.getAll());
         return "index";
     }
