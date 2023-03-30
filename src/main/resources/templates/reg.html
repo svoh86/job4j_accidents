@@ -24,33 +24,30 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/reg}">Регистрация</a>
-            </div>
-        </div>
     </nav>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                Новый пользователь
             </div>
             <div class="card-body">
                 <div th:if="${not #strings.isEmpty(errorMessage)}" class="alert alert-danger" role="alert">
                     <span th:text="${errorMessage}"></span>
                 </div>
-                <form th:action="@{/login}" method="POST">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <div class="form-group">
-                        <label>Логин</label>
-                        <input type="text" class="form-control" name="username">
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                </form>
+                <div class="card-body">
+                    <form th:action="@{/reg}" method="POST">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <div class="form-group">
+                            <label>Логин</label>
+                            <input type="text" class="form-control" placeholder="Логин" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label>Пароль</label>
+                            <input type="text" class="form-control" placeholder="Пароль" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Регистрация</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
