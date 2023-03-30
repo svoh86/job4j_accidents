@@ -7,8 +7,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.sql.DataSource;
 
 /**
  * Класс для конфигурации Spring Security
@@ -21,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    DataSource ds;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Метод содержит описание, как искать пользователей.
-     * В этом примере мы загружаем их в память.
      * У каждого пользователя есть роль. По роли мы определяем, что пользователь может делать.
      *
      * @param auth AuthenticationManagerBuilder
@@ -37,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder)
-                .withUser("user").password(passwordEncoder.encode("123456")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+        auth.jdbcAuthentication()
+                .dataSource(ds)
+                .withUser(User.withUsername("user")
+                        .password(passwordEncoder().encode("123"))
+                        .roles("USER"));
     }
 
     /**
