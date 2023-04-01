@@ -34,8 +34,7 @@ class AccidentControllerTest {
         this.mockMvc.perform(get("/editAccident/?id=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("errorPage"))
-                .andExpect(model().attribute("message", "Инцидента не существует!"))
+                .andExpect(view().name("editAccident"))
                 .andExpect(model().attribute("user", "user"));
     }
 }
