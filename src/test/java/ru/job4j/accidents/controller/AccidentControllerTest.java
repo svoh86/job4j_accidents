@@ -14,24 +14,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
-class IndexControllerTest {
-    /**
-     * Создает объект-заглушку. Мы можем отправлять в него запросы.
-     */
+class AccidentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    /**
-     * Аннотация @WithMockUser - Подставляет авторизованного пользователя в запрос.
-     */
     @Test
     @WithMockUser
-    public void whenIndexView() throws Exception {
-        this.mockMvc.perform(get("/index"))
+    public void whenCreateAccident() throws Exception {
+        this.mockMvc.perform(get("/createAccident"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(handler().handlerType(IndexController.class))
+                .andExpect(view().name("createAccident"))
+                .andExpect(model().attribute("user", "user"));
+    }
+
+    @Test
+    @WithMockUser
+    public void whenEditAccident() throws Exception {
+        this.mockMvc.perform(get("/editAccident/?id=1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("errorPage"))
+                .andExpect(model().attribute("message", "Инцидента не существует!"))
                 .andExpect(model().attribute("user", "user"));
     }
 }
