@@ -1,7 +1,6 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,7 +84,7 @@ public class AccidentController {
         String[] ids = req.getParameterValues("rIds");
         accident.setRules(ruleService.findById(ids));
         if (!accidentService.update(accident)) {
-            model.addAttribute("message", "Инцидент не создан!");
+            model.addAttribute("message", "Инцидент не обновлен!");
             return "errorPage";
         }
         return "redirect:/index";
