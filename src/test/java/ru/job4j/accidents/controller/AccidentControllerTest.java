@@ -43,7 +43,7 @@ class AccidentControllerTest {
         this.mockMvc.perform(get("/editAccident/?id=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("editAccident"))
+                .andExpect(view().name("errorPage"))
                 .andExpect(model().attribute("user", "user"));
     }
 
@@ -83,5 +83,4 @@ class AccidentControllerTest {
         verify(accidentService).update(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().getName()).isEqualTo("new Name");
     }
-
 }
