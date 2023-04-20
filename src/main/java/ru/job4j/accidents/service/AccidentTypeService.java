@@ -2,6 +2,7 @@ package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentTypeRepository;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class AccidentTypeService {
     private final AccidentTypeRepository accidentTypeRepository;
 
@@ -21,6 +23,7 @@ public class AccidentTypeService {
         return (List<AccidentType>) accidentTypeRepository.findAll();
     }
 
+    @Transactional
     public boolean create(AccidentType accidentType) {
         boolean flag;
         try {

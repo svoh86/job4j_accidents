@@ -2,6 +2,7 @@ package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.RuleRepository;
 
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class RuleService {
     private final RuleRepository ruleRepository;
 
@@ -22,6 +24,7 @@ public class RuleService {
         return (List<Rule>) ruleRepository.findAll();
     }
 
+    @Transactional
     public boolean create(Rule rule) {
         boolean flag;
         try {
