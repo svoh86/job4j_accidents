@@ -64,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * .defaultSuccessUrl("/")
      * .failureUrl("/login?error=true")
      * .permitAll()
+     * Отключаем защиту от межсайтовой подделки запросов
+     * .csrf().disable();
      *
      * @param http HttpSecurity
      * @throws Exception исключение

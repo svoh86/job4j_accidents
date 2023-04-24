@@ -5,6 +5,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 /**
  * Класс подключает DelegatingFilterProxy - главный фильтр,
  * в котором идёт обработка запросов.
+ * Без него не будет вызываться начальная форма регистрации
  *
  * @author Svistunov Mikhail
  * @version 1.0
