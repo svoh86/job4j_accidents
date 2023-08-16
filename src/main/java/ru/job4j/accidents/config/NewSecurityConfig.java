@@ -3,24 +3,26 @@ package ru.job4j.accidents.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
 /**
- * Класс для конфигурации Spring Security
+ * Класс для конфигурации Spring Security без WebSecurityConfigurerAdapter
  *
  * @author Svistunov Mikhail
  * @version 1.0
  */
-//@Configuration
-//@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@EnableWebSecurity
+public class NewSecurityConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -36,18 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * У каждого пользователя есть роль. По роли мы определяем, что пользователь может делать.
      * Запросы авторизации и аутентификации.
      *
-     * @param auth AuthenticationManagerBuilder
-     * @throws Exception исключение
+     * @return UserDetailsManager
      */
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(ds)
-                .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
-                .authoritiesByUsernameQuery(
-                        "SELECT u.username, a.authority "
-                                + "FROM authorities a, users u "
-                                + "WHERE u.username = ? AND u.authority_id = a.id");
+    @Bean
+    public UserDetailsManager authenticateUsers() {
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(ds);
+        users.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
+        users.setAuthoritiesByUsernameQuery("SELECT u.username, a.authority "
+                + "FROM authorities a, users u "
+                + "WHERE u.username = ? AND u.authority_id = a.id");
+        return users;
     }
 
     /**
@@ -70,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param http HttpSecurity
      * @throws Exception исключение
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login", "/reg")
                 .permitAll()
@@ -91,5 +91,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
+        return http.build();
+    }
+
+    /**
+     * Пропускаем (не блокируем) картинки и логотипы оформления стартовых страниц.
+     *
+     * @return WebSecurityCustomizer
+     */
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .antMatchers("/css/**", "/js/**", "/images/logo/**");
     }
 }
